@@ -1,0 +1,57 @@
+### Test Phone Bill Calculation
+
+POST http://localhost:3000/api/phonebill
+Content-Type: application/json
+
+{
+    "price_plan": "sms_kick_100",
+    "actions": "call, sms, call"
+}
+
+###
+
+### Get All Price Plans
+
+GET http://localhost:3000/api/price_plans
+Content-Type: application/json
+
+###
+
+### Create a New Price Plan
+
+POST http://localhost:3000/api/price_plan/create
+Content-Type: application/json
+
+{
+    "name": "sms_kick_100",
+    "call_cost": 2.65,
+    "sms_cost": 0.45
+}
+
+###
+
+### Update an Existing Price Plan
+
+POST http://localhost:3000/api/price_plan/update
+Content-Type: application/json
+
+{
+    "name": "sms_kick_100",
+    "call_cost": 3.00,
+    "sms_cost": 0.50
+}
+
+###
+
+### Delete a Price Plan
+
+POST http://localhost:3000/api/price_plan/delete
+Content-Type: application/json
+
+{
+    "id": 17
+}
+
+
+
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Bill API</title>
+    <script src="//unpkg.com/alpinejs" defer></script>`
+    
+    <link rel="stylesheet" href="styles.css">
+
+    
+    <script>
+ document.addEventListener('alpine:init', () => {
+            // Alpine.js specific initializations can go here
+        });
+
+        async function calculatePhoneBill(event) {
+            event.preventDefault();
+            const pricePlan = document.getElementById('price_plan').value;
+            const actions = document.getElementById('actions').value;
+            const response = await fetch('/api/phonebill', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ price_plan: pricePlan, actions: actions })
+            });
+            const result = await response.json();
+            document.getElementById('bill_result').innerText = 'Total: ' + result.total;
+        }
+
+        async function getAllPricePlans() {
+            const response = await fetch('/api/price_plans');
+            const plans = await response.json();
+            const plansList = document.getElementById('price_plans_list');
+            plansList.innerHTML = '';
+            plans.forEach(plan => {
+                const li = document.createElement('li');
+                li.textContent = `Name: ${plan.plan_name}, Call Cost: ${plan.call_price}, SMS Cost: ${plan.sms_price}`;
+                plansList.appendChild(li);
+            });
+        }
+
+        async function createPricePlan(event) {
+            event.preventDefault();
+            const name = document.getElementById('new_plan_name').value;
+            const callCost = document.getElementById('new_call_cost').value;
+            const smsCost = document.getElementById('new_sms_cost').value;
+            await fetch('/api/price_plan/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, call_cost: callCost, sms_cost: smsCost })
+            });
+            alert('Price plan created!');
+        }
+
+        async function updatePricePlan(event) {
+            event.preventDefault();
+            const name = document.getElementById('update_plan_name').value;
+            const callCost = document.getElementById('update_call_cost').value;
+            const smsCost = document.getElementById('update_sms_cost').value;
+            await fetch('/api/price_plan/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name, call_cost: callCost, sms_cost: smsCost })
+            });
+            alert('Price plan updated!');
+        }
+
+        async function deletePricePlan(event) {
+            event.preventDefault();
+            const id = document.getElementById('delete_plan_id').value;
+            await fetch('/api/price_plan/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            });
+            alert('Price plan deleted!');
+        }
+    </script>
+</head>
+<body>
+    <h1>Phone Bill API</h1>
+
+    <h2>Calculate Phone Bill</h2>
+    <form onsubmit="calculatePhoneBill(event)">
+        <label for="price_plan">Price Plan:</label>
+        <input type="text" id="price_plan" required>
+        <label for="actions">Actions (comma-separated):</label>
+        <input type="text" id="actions" required>
+        <button type="submit">Calculate</button>
+    </form>
+    <p id="bill_result"></p>
+
+    <h2>Get All Price Plans</h2>
+    <button onclick="getAllPricePlans()">Load Price Plans</button>
+    <ul id="price_plans_list"></ul>
+
+    <h2>Create a New Price Plan</h2>
+    <form onsubmit="createPricePlan(event)">
+        <label for="new_plan_name">Name:</label>
+        <input type="text" id="new_plan_name" required>
+        <label for="new_call_cost">Call Cost:</label>
+        <input type="number" step="0.01" id="new_call_cost" required>
+        <label for="new_sms_cost">SMS Cost:</label>
+        <input type="number" step="0.01" id="new_sms_cost" required>
+        <button type="submit">Create</button>
+    </form>
+
+    <h2>Update an Existing Price Plan</h2>
+    <form onsubmit="updatePricePlan(event)">
+        <label for="update_plan_name">Name:</label>
+        <input type="text" id="update_plan_name" required>
+        <label for="update_call_cost">Call Cost:</label>
+        <input type="number" step="0.01" id="update_call_cost" required>
+        <label for="update_sms_cost">SMS Cost:</label>
+        <input type="number" step="0.01" id="update_sms_cost" required>
+        <button type="submit">Update</button>
+    </form>
+
+    <h2>Delete a Price Plan</h2>
+    <form onsubmit="deletePricePlan(event)">
+        <label for="delete_plan_id">Plan ID:</label>
+        <input type="number" id="delete_plan_id" required>
+        <button type="submit">Delete</button>
+    </form>
+</body>
+</html>
