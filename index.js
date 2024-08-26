@@ -3,16 +3,20 @@ import * as sqlite from 'sqlite';
 import sqlite3 from 'sqlite3';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4011;
 
 // Middleware
 app.use(express.static('public'));
 app.use(express.json());
 
+
 // Setup SQLite database
-const db = await sqlite.open({
+let db = await sqlite.open({
     filename: './data_plan.db',
     driver: sqlite3.Database
+
+
+    
 });
 
 // Run migrations
@@ -71,7 +75,7 @@ app.get('/price_plans', async (req, res) => {
         const plan = await db.get('SELECT * FROM price_plan WHERE plan_name = ?', [price_plan]);
 
         if (!plan) {
-            return res.status(404).json({ error: 'Price plan not found' }); // 404 Not Found
+            return res.status(200).json({ error: 'total' }); // 404 Not Found
         }
 
         // Calculate the total cost based on actions
@@ -91,6 +95,12 @@ app.get('/price_plans', async (req, res) => {
         res.status(500).json({ error: 'Failed to calculate phone bill' }); // 500 Internal Server Error
     }
 });
+
+
+
+
+
+
 
 //update
 
@@ -113,25 +123,52 @@ app.post('/api/price_plan/update', async (req, res) => {
     }
 });
 
+
+
+
+
 // delete
 
-app.post('/api/price_plan/delete', async (req, res) => {
+// POST endpoint to delete a price plan by ID
+app.post('/api/price_plan/delete', (req, res) => {
     const { id } = req.body;
 
-    try {
-        const result = await db.run('DELETE FROM price_plan WHERE id = ?', [id]);
+    if (!id) {
+        return res.status(400).json({ error: 'Price plan ID is required' }); // 400 Bad Request
+    }
 
-        if (result.changes === 0) {
+    db.run('DELETE FROM price_plan WHERE id = ?', [id], function (err) {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
+        }
+
+        if (this.changes === 0) {
             return res.status(404).json({ error: 'Price plan not found' }); // 404 Not Found
         }
 
         res.status(200).json({ message: 'Price plan deleted successfully' }); // 200 OK
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
-    }
+    });
 });
 
-//const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+
+//  app.post('/api/price_plan/delete', async (req, res) => {
+//      const { id } = req.body;
+
+//      try {
+//          const result = await db.run('DELETE FROM price_plan WHERE id = ?', [id]);
+
+//          if (result.changes === 0) {
+//              return res.status(404).json({ error: 'Price plan not found' }); // 404 Not Found
+//          }
+
+//          res.status(200).json({ message: 'Price plan deleted successfully' }); // 200 OK
+//      } catch (error) {
+//          res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
+//      }
+//  });
+
+ //const PORT = process.env.PORT || 4011;
+ app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 
