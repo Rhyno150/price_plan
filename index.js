@@ -3,7 +3,7 @@ import * as sqlite from 'sqlite';
 import sqlite3 from 'sqlite3';
 
 const app = express();
-const PORT = process.env.PORT || 4011;
+const PORT = process.env.PORT || 4034;
 
 // Middleware
 app.use(express.static('public'));
@@ -130,43 +130,79 @@ app.post('/api/price_plan/update', async (req, res) => {
 // delete
 
 // POST endpoint to delete a price plan by ID
-app.post('/api/price_plan/delete', (req, res) => {
-    const { id } = req.body;
+// app.post('/api/price_plan/delete', (req, res) => {
+//     const { id } = req.body;
 
-    if (!id) {
+//     if (!id) {
+//         return res.status(400).json({ error: 'Price plan ID is required' }); // 400 Bad Request
+//     }
+
+//     db.run('DELETE FROM price_plan WHERE id = ?', [id], function (err) {
+//         if (err) {
+//             return res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
+//         }
+
+//         if (this.changes === 0) {
+//             return res.status(404).json({ error: 'Price plan not found' }); // 404 Not Found
+//         }
+
+//         res.status(200).json({ message: 'Price plan deleted successfully' }); // 200 OK
+//     });
+// });
+
+
+app.post('/api/price_plan/delete', async (req, res) => {
+    console.log(req.body);  // Log the request body
+    const { price_plan } = req.body;
+
+    // Validate the input
+    if (price_plan === undefined) {
         return res.status(400).json({ error: 'Price plan ID is required' }); // 400 Bad Request
     }
 
-    db.run('DELETE FROM price_plan WHERE id = ?', [id], function (err) {
-        if (err) {
-            return res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
-        }
+    const id = Number(price_plan);
 
-        if (this.changes === 0) {
+    if (isNaN(id)) {
+        return res.status(400).json({ error: 'Price plan ID must be a valid number' }); // 400 Bad Request
+    }
+
+    try {
+        const result = await db.run('DELETE FROM price_plan WHERE id = ?', [id]);
+
+        if (result.changes === 0) {
             return res.status(404).json({ error: 'Price plan not found' }); // 404 Not Found
         }
 
         res.status(200).json({ message: 'Price plan deleted successfully' }); // 200 OK
-    });
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
+    }
 });
 
 
 
-//  app.post('/api/price_plan/delete', async (req, res) => {
-//      const { id } = req.body;
 
-//      try {
-//          const result = await db.run('DELETE FROM price_plan WHERE id = ?', [id]);
 
-//          if (result.changes === 0) {
-//              return res.status(404).json({ error: 'Price plan not found' }); // 404 Not Found
-//          }
+app.post('/api/phonebill', (req, res) => {
+    const { price_plan, actions } = req.body;
+    // Calculate the bill here
+    const total = calculateBill(price_plan, actions);
+    res.json({ total });
+  });
 
-//          res.status(200).json({ message: 'Price plan deleted successfully' }); // 200 OK
-//      } catch (error) {
-//          res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
-//      }
-//  });
+   const port = process.env.PORT || 4044;
+  
+  
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+  
+  function calculateBill(pricePlan, actions) {
+    // Your bill calculation logic goes here
+    return 78.00; // Replace with actual calculation
+  }
+
 
  //const PORT = process.env.PORT || 4011;
  app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +8,20 @@
 
     <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
 
-    <script src="https://unpkg.com/alpinejs" defer></script>
-    <!-- <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+  <!-- <script src="https://unpkg.com/alpinejs" defer></script> -->
+     <script src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
     <!-- <script src="https://unpkg.com/alpinejs@3.1.2/dist/alpine.min.js" defer></script> -->
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    
+
 
     <link rel="stylesheet" href="styles.css">
 
-    
+
     <script>
- document.addEventListener('alpine:init', () => {
+        document.addEventListener('alpine:init', () => {
             // Alpine.js specific initializations can go here
         });
 
@@ -82,19 +83,54 @@
         }
 
         async function deletePricePlan(event) {
-            event.preventDefault();
-            const id = document.getElementById('delete_plan_id').value;
-            await fetch('/api/price_plan/delete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: id })
-            });
-            alert('Price plan deleted!');
+    event.preventDefault();
+    
+    const pricePlan = document.getElementById('delete_plan_id').value;
+    
+    if (!pricePlan) {
+        alert('Please enter a Price Plan ID');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/price_plan/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ price_plan: pricePlan }) // Adjusted key to match server expectation
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Price plan deleted successfully!');
+        } else {
+            // Handle different error statuses
+            alert(`Error: ${data.error}`);
         }
+    } catch (error) {
+        console.error('Error deleting price plan:', error);
+        alert('An unexpected error occurred. Please try again later.');
+    }
+}
+
+
+        // async function deletePricePlan(event) {
+        //     event.preventDefault();
+        //     const id = document.getElementById('delete_plan_id').value;
+        //     await fetch('/api/price_plan/delete', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({ id: id })
+        //     });
+        //     alert('Price plan deleted!');
+        // }
     </script>
 </head>
+
 <body>
     <h1>Phone Bill API</h1>
 
@@ -135,10 +171,19 @@
     </form>
 
     <h2>Delete a Price Plan</h2>
+
     <form onsubmit="deletePricePlan(event)">
+        <input type="text" id="delete_plan_id" placeholder="Enter Price Plan ID" required />
+        <button type="submit">Delete Price Plan</button>
+    </form>
+    
+
+
+    <!-- <form onsubmit="deletePricePlan(event)">
         <label for="delete_plan_id">Plan ID:</label>
         <input type="number" id="delete_plan_id" required>
         <button type="submit">Delete</button>
-    </form>
+    </form> -->
 </body>
+
 </html>
