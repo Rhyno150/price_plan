@@ -8,17 +8,17 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    body {
+    /* body {
         background-image: url('C:\Users\Proline - Ccm\documents\documents\projects\price_plan\phone bills.jpg');
         background-size: cover;
         background-position: center;
-    }
+    } */
     
 }
 
 h1 {
     font-family: 'Roboto', sans-serif;
-    color: #2c3e50;
+    color: black;
     letter-spacing: 1.2px;
     margin-bottom: 20px;
     text-align: center; /* Center the heading */
@@ -26,7 +26,7 @@ h1 {
 
 h2 {
     font-family: 'Montserrat', sans-serif;
-    color: #16a085;
+    color: brown;
     letter-spacing: 1.1px;
     margin-bottom: 15px;
 }
@@ -54,7 +54,7 @@ form input[type="number"] {
     width: 100%;
     padding: 8px 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid powderblue;
     border-radius: 4px;
     font-size: 14px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -80,7 +80,7 @@ form button {
 }
 
 form button:hover {
-    background: linear-gradient(135deg, green, #1c6384);
+    background: linear-gradient(135deg, brown, #1c6384);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -123,7 +123,7 @@ form button i {
 
 /* Result Styles */
 #bill_result {
-    background-color: burlywood;
+    background-color: black;
     color: #fff;
     padding: 10px;
     border-radius: 4px;
