@@ -9,10 +9,12 @@
    },
    "scripts": {
     "start": "node index.js" 
-  }
+  },
 
-  
- }
+
+"license": "MIT"
+}
+ 
 
 
 

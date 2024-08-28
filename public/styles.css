@@ -2,12 +2,18 @@
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #f4f4f9, #eaeaea);
-    color: #333;
+    color: grey;
     margin: 0;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    body {
+        background-image: url('C:\Users\Proline - Ccm\documents\documents\projects\price_plan\phone bills.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+    
 }
 
 h1 {
@@ -15,6 +21,7 @@ h1 {
     color: #2c3e50;
     letter-spacing: 1.2px;
     margin-bottom: 20px;
+    text-align: center; /* Center the heading */
 }
 
 h2 {
@@ -44,7 +51,7 @@ form label {
 
 form input[type="text"],
 form input[type="number"] {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 8px 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -61,7 +68,7 @@ form input[type="number"]:focus {
 }
 
 form button {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    background: linear-gradient(135deg, #2980b9, #2980b9);
     color: #fff;
     padding: 12px 20px;
     border: none;
@@ -73,7 +80,7 @@ form button {
 }
 
 form button:hover {
-    background: linear-gradient(135deg, #2980b9, #1c6384);
+    background: linear-gradient(135deg, green, #1c6384);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -116,7 +123,7 @@ form button i {
 
 /* Result Styles */
 #bill_result {
-    background-color: #e74c3c;
+    background-color: burlywood;
     color: #fff;
     padding: 10px;
     border-radius: 4px;
@@ -156,5 +163,17 @@ form button i {
 
     #price_plans_list li {
         padding: 12px 18px;
+    }
+
+    /* Additional responsive adjustments */
+    h1 {
+        font-size: 24px; /* Adjust heading size for smaller screens */
+    }
+    form label {
+        font-size: 14px; /* Adjust label size for smaller screens */
+    }
+    form input[type="text"],
+    form input[type="number"] {
+        font-size: 13px; /* Adjust input size for smaller screens */
     }
 }
