@@ -24,7 +24,7 @@ await db.migrate();
 
 // API Endpoints
 
-// Get all price plans
+// Get all price plans starts here
 app.get('/api/price_plans', async (req, res) => {
     try {
         const pricePlans = await db.all('SELECT * FROM price_plan');
@@ -35,10 +35,10 @@ app.get('/api/price_plans', async (req, res) => {
 });
 
 
-//
+// Get all price plans ends here
 
 
-// Add a new price plan
+// Add a new price plan starts here 
 app.post('/api/price_plan/create', async (req, res) => {
     const { name, call_cost, sms_cost } = req.body;
 
@@ -52,7 +52,7 @@ app.post('/api/price_plan/create', async (req, res) => {
         res.status(500).json({ error: 'Failed to create price plan' }); // 500 Internal Server Error
     }
 });
-
+ // add a new price plan ends here
 
   
   // Get all price plans
@@ -66,7 +66,7 @@ app.get('/price_plans', async (req, res) => {
     }
   });
 
-  // Calculate total phone bill
+  // Calculate total phone bill starts here
   app.post('/api/phonebill', async (req, res) => {
     const { price_plan, actions } = req.body;
 
@@ -98,11 +98,11 @@ app.get('/price_plans', async (req, res) => {
 
 
 
+// calculate total phone bill ends here
 
 
 
-
-//update
+//update price plans starts here
 
 app.post('/api/price_plan/update', async (req, res) => {
     const { name, call_cost, sms_cost } = req.body;
@@ -125,30 +125,9 @@ app.post('/api/price_plan/update', async (req, res) => {
 
 
 
+// update price plan starts here
 
 
-// delete
-
-// POST endpoint to delete a price plan by ID
-// app.post('/api/price_plan/delete', (req, res) => {
-//     const { id } = req.body;
-
-//     if (!id) {
-//         return res.status(400).json({ error: 'Price plan ID is required' }); // 400 Bad Request
-//     }
-
-//     db.run('DELETE FROM price_plan WHERE id = ?', [id], function (err) {
-//         if (err) {
-//             return res.status(500).json({ error: 'Failed to delete price plan' }); // 500 Internal Server Error
-//         }
-
-//         if (this.changes === 0) {
-//             return res.status(404).json({ error: 'Price plan not found' }); // 404 Not Found
-//         }
-
-//         res.status(200).json({ message: 'Price plan deleted successfully' }); // 200 OK
-//     });
-// });
 
 
 app.post('/api/price_plan/delete', async (req, res) => {
@@ -181,6 +160,8 @@ app.post('/api/price_plan/delete', async (req, res) => {
 });
 
 
+ //update price plan ends here
+
 
 
 
@@ -198,13 +179,10 @@ app.post('/api/phonebill', (req, res) => {
     console.log(`Server listening on port ${port}`);
   });
   
-  function calculateBill(pricePlan, actions) {
-    // Your bill calculation logic goes here
-    return 78.00; // Replace with actual calculation
-  }
 
 
- //const PORT = process.env.PORT || 4011;
+
+ 
  app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 
