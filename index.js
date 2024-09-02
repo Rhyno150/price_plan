@@ -3,7 +3,7 @@ import * as sqlite from 'sqlite';
 import sqlite3 from 'sqlite3';
 
 const app = express();
-const PORT = process.env.PORT || 4034;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.static('public'));
@@ -16,7 +16,7 @@ let db = await sqlite.open({
     driver: sqlite3.Database
 
 
-    
+
 });
 
 // Run migrations
@@ -52,22 +52,22 @@ app.post('/api/price_plan/create', async (req, res) => {
         res.status(500).json({ error: 'Failed to create price plan' }); // 500 Internal Server Error
     }
 });
- // add a new price plan ends here
+// add a new price plan ends here
 
-  
-  // Get all price plans
+
+// Get all price plans
 app.get('/price_plans', async (req, res) => {
     const db = await dbPromise;
     try {
-      const pricePlans = await db.all('SELECT * FROM price_plans');
-      res.json(pricePlans);
+        const pricePlans = await db.all('SELECT * FROM price_plans');
+        res.json(pricePlans);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  });
+});
 
-  // Calculate total phone bill starts here
-  app.post('/api/phonebill', async (req, res) => {
+// Calculate total phone bill starts here
+app.post('/api/phonebill', async (req, res) => {
     const { price_plan, actions } = req.body;
 
     try {
@@ -160,7 +160,7 @@ app.post('/api/price_plan/delete', async (req, res) => {
 });
 
 
- //update price plan ends here
+//update price plan ends here
 
 
 
@@ -170,19 +170,19 @@ app.post('/api/phonebill', (req, res) => {
     // Calculate the bill here
     const total = calculateBill(price_plan, actions);
     res.json({ total });
-  });
+});
 
-   const port = process.env.PORT || 4044;
-  
-  
-  app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-  });
-  
+//    const port = process.env.PORT || 4044;
 
 
+//   app.listen(port, () => {
+//     console.log(`Server listening on port ${port}`);
+//   });
 
- 
- app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
+
+
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 
