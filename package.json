@@ -1,21 +1,44 @@
- {
+{
   
      "type": "module",
-   "dependencies": {
+  
+     "dependencies": {
+  
+       
      "express": "^4.19.2",
+  
+       
      "glob": "^11.0.0",
+  
+       
      "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
-   },
-   "scripts": {
-    "start": "node index.js" 
-  },
-
-
-"license": "MIT"
-}
- 
-
-
-
-
+  
+       
+     "sqlite3": "^5.1.7"
+  
+     },
+  
+     "scripts": {
+  
+       
+     "start": "node index.js"
+  
+     },
+  
+     "license": "MIT",
+  
+     "devDependencies": {
+  
+       
+     "chai": "^5.1.1",
+  
+       
+     "mocha": "^10.7.3",
+  
+       
+     "supertest": "^7.0.0",
+   
+            "test": "mocha"
+          }
+        }
+        
